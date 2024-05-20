@@ -1,18 +1,18 @@
-## Weather Service API Requirements Document
+# Weather Service API Requirements Document
 
-### Overview
+## Overview
 
 The Weather Service API is designed to provide weather information based on latitude and longitude coordinates. The API fetches data from the OpenWeather API and returns the weather condition, temperature classification (hot, cold, moderate), and any active weather alerts for the specified location.
 
-### Functional Requirements
+## Functional Requirements
 
-#### 1. Endpoint Definition
+### 1. Endpoint Definition
 
 - **Endpoint:** `/weather`
 - **Method:** GET
 - **Description:** Returns weather information for a given set of latitude and longitude coordinates.
 
-#### 2. Request Parameters
+### 2. Request Parameters
 
 - **lat** (required): Latitude of the location.
   - **Type:** String
@@ -21,7 +21,7 @@ The Weather Service API is designed to provide weather information based on lati
   - **Type:** String
   - **Example:** `139.6917`
 
-#### 3. Response
+### 3. Response
 
 - **Content-Type:** `application/json`
 - **Status Codes:**
@@ -32,7 +32,7 @@ The Weather Service API is designed to provide weather information based on lati
 - **Response Body:**
   ```json
   {
-    "weather_condition": "rain",
+    "weather_condition": ["rain"],
     "temperature": "moderate",
     "alerts": [
       {
@@ -76,10 +76,10 @@ The Weather Service API is designed to provide weather information based on lati
   - Unable to fetch data from OpenWeather API.
   - Unexpected errors during data processing.
 
-### Non-Functional Requirements
+## Non-Functional Requirements
 
 - **Performance:** The API should respond within 2 seconds under normal load conditions.
-- **Scalability:** TBD
+- **Scalability:** The API should only need to handle a single user but should be able to scale in future development.
 - **Availability:** TBD
 
 ### Security Requirements
@@ -88,27 +88,18 @@ The Weather Service API is designed to provide weather information based on lati
 - **Rate Limiting:** Rate limiting should be implemented to prevent abuse of the API.
 - **Input Validation:** Validate and sanitize input parameters to prevent injection attacks.
 
-### Implementation Details
+## Implementation Details
 
 - **Framework:** Express.js
 - **Language:** JavaScript (Node.js)
-- **Dependencies:** see package.json
-
-### Example Request
-
-```
-GET /weather?lat=35.6895&lon=139.6917
-```
-
-### Example Response
-
-```json
-{
-  "weather_condition": "clear",
-  "temperature": "moderate",
-  "alerts": []
-}
-```
+- **Dependencies:** 
+  - Express: Lightweight Node.js based back end API framework which uses the middleware design pattern to enforce separation of concerns and modular and allow for the development reusable code. Express also contains a rich ecosystem of open-source libraries that can be used to quickly build an application.
+  - Zod: Validation library which provides data validation based on custom defined schemas and outputs typed variables after validation for ease of validation and request validation in TypeScript.
+  - Winston: Node.js logging library which supports standard logging levels (info, warn, debug, etc) and multiple transports (file, database, cloud services).
+  - express-winston: Logging middleware for Express and Winston to automatically log http requests.
+  - winston-transport: Mainly for Winston types for TypeScript, though can be used to configure custom transports.
+  - @google-cloud/logging-winston: Official Google Cloud transport plugin for Winston for logging when deployed on Google Cloud.
+  - dotenv: Used to hide secrets in `.env` file so they are not exposed in application code.
 
 ### Development and Testing
 
@@ -116,9 +107,9 @@ GET /weather?lat=35.6895&lon=139.6917
 - **Integration Tests:** TBD
 - **Load Testing:** TBD
 
-### Deployment
+## Deployment Details
 
 - **Environment Variables:**
   - `PORT`: Port on which the server runs.
-  - `API_KEY`: OpenWeather API key.
+  - `OPENWEATHER_API_KEY`: OpenWeather API key.
 - **Deployment Platform:** Google Cloud Run
