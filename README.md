@@ -21,7 +21,8 @@ This service is based on the OpenWeather API which can be found here: https://op
 
 ## Usage
 
-1. Set up the required environment variables.
+1. Set up the required environment variables:
+- OpenWeather API Key OPENWEATHER_API_KEY
 2. Build build the service `npm run build`
 3. Start the server: `npm start`
 4. Access the API at `http://localhost:3000`
@@ -30,10 +31,10 @@ This service is based on the OpenWeather API which can be found here: https://op
 
 ### Request Parameters
 
-- **lat** (required): Latitude of the location.
+- **lat** (required): Latitude of the location, between -90 and 90.
   - **Type:** String
   - **Example:** `35.6895`
-- **lon** (required): Longitude of the location.
+- **lon** (required): Longitude of the location, between -180 and 180.
   - **Type:** String
   - **Example:** `139.6917`
 
@@ -43,12 +44,13 @@ This service is based on the OpenWeather API which can be found here: https://op
 - **Status Codes:**
   - `200 OK`: Request was successful.
   - `400 Bad Request`: Missing or invalid latitude/longitude parameters.
+  - `404 Not Found`: Invalid endpoint.
   - `500 Internal Server Error`: Error fetching data from OpenWeather API or processing the request.
 
 - **Response Body:**
   ```json
   {
-    "weather_condition": "rain",
+    "weather_conditions": ["rain"],
     "temperature": "moderate",
     "alerts": [
       {
