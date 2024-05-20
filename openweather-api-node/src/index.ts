@@ -51,6 +51,7 @@ app.use(
     // add custom error message and stack trace if available
     const errorObj = {
       ...defaultError,
+      ...err,
       ...(err instanceof Error
         ? { message: { err: err.message }, stack: err.stack }
         : err),
@@ -61,6 +62,10 @@ app.use(
     res.status(errorObj.status).json(errorObj.message);
   }
 );
+
+export interface MiddlewareError extends Error {
+  status?: number;
+}
 
 app.listen(PORT, () => {
   logger.info(`Listening on port ${PORT}`);

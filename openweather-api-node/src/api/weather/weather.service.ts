@@ -1,6 +1,7 @@
 import { logger } from "../../logger/WinstonLogger";
 import { z } from "zod";
 import dotenv from "dotenv";
+import { MiddlewareError } from "../..";
 dotenv.config();
 
 const latSchema = z.number().gt(-90).lt(90);
@@ -19,7 +20,9 @@ export async function validateCoords(lat: string, lon: string) {
     return { latNum, lonNum };
   } catch (err: any) {
     logger.error("Error: invalid lat or lon.");
-    throw new Error("Invalid coordinates in request query.");
+    const validationError: MiddlewareError = new Error("Invalid coordinates in request query.");
+    validationError.status = 400;
+    throw validationError;
   }
 }
 
