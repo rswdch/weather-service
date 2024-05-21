@@ -20,29 +20,34 @@ export async function validateCoords(lat: string, lon: string) {
     return { latNum, lonNum };
   } catch (err: any) {
     logger.error("Error: invalid lat or lon.");
-    const validationError: MiddlewareError = new Error("Invalid coordinates in request query.");
+    const validationError: MiddlewareError = new Error(
+      "Invalid coordinates in request query."
+    );
     validationError.status = 400;
     throw validationError;
   }
 }
 
 /**
- * Fetches data from OpenWeather OneCall API.
+ * Fetches data from OpenWeather OneCall API. Temperature is fetched in celsius.
  * @param {number} lat between (-90, 90)
  * @param {number} lon between (-180, 180)
  * @returns OpenWeather OneCall API response data: https://openweathermap.org/api/one-call-3#parameter
  */
 export async function getOpenWeather(lat: number, lon: number) {
-  console.log("getopenweather");
-  const API_KEY = process.env.OPENWEATHER_API_KEY;
-  const BASE_URL = "https://api.openweathermap.org/data/3.0/onecall";
-
-  let data: any;
   try {
-    data = await fetch(
+    const API_KEY = process.env.OPENWEATHER_API_KEY;
+    if (!API_KEY) {
+      throw new Error("OpenWeather API key not found.");
+    }
+
+    const BASE_URL = "https://api.openweathermap.org/data/3.0/onecall";
+
+    let data: any = await fetch(
       `${BASE_URL}?units=metric&exclude=minutely,hourly,daily&lat=${lat}&lon=${lon}&appid=${API_KEY}`
     );
 
+    // OpenWeather API will not return cod if successful
     if (data.cod) {
       throw new Error(
         "An error occurred fetching from OpenWeather OneCall API."
@@ -50,6 +55,7 @@ export async function getOpenWeather(lat: number, lon: number) {
     }
 
     const res = await data.json();
+    logger.info("OpenWeather API response:");
     logger.info(JSON.stringify(res));
     return res;
   } catch (err: any) {
@@ -57,10 +63,72 @@ export async function getOpenWeather(lat: number, lon: number) {
   }
 }
 
-// TODO clarify Weather Service response object schema
-export function parseWeatherConditions(openWeatherData: any) {}
+/**
+ * Maps OpenWeather API response to API format.
+ *
+ * - conditions is an array of objects with shortDesc and longDesc.
+ *
+ * - There can be multiple conditions, as documented: https://samples.openweathermap.org/data/2.5/find?q=London&appid=b1b15e88fa797225412429c1c50c122a1r
+ *
+ * - alerts is either an empty array or an array of objects.
+ *
+ * - feeling can be hot (> 27C/80F), cold (< 15C/59F), or moderate.
+ *
+ * - temperature is given in celsius.
+ *
+ * - units are always metric for documentation.
+ * @param openWeatherData parsed object from OpenWeather OneCall 3.0 API
+ * @returns API format response object
+ */
+export function parseWeatherConditions(openWeatherData: any): WeatherResponse {
+  try {
+    if (!openWeatherData.current || !openWeatherData.current.weather) {
+      throw new Error(
+        "OpenWeather API data does not contain current weather conditions."
+      );
+    }
 
-interface WeatherResponse {
-  conditions: Array<string>; // OneCall current.weather: Array
-  alerts: Array<string>; // OneCall
+    const current = openWeatherData.current;
+
+    const conditions = current.weather.map((singleCondition: any) => {
+      return {
+        shortDesc: singleCondition.main,
+        longDesc: singleCondition.description,
+      };
+    });
+
+    const temperature = z.number().parse(current.temp);
+    // Feeling hot, cold, or moderate, based on developer's discretion
+    const feeling =
+      temperature > 27 ? "hot" : temperature < 15 ? "cold" : "moderate";
+
+    const alerts = openWeatherData.alerts || [];
+    const units = "metric";
+
+    return { feeling, conditions, alerts, temperature, units };
+  } catch (err: any) {
+    logger.error("Error converting OpenWeather API response to API format.");
+    throw err;
+  }
+}
+
+export interface WeatherResponse {
+  feeling: "hot" | "cold" | "moderate";
+  temperature: number; // OneCall current.temp
+  conditions: Array<OpenWeatherCondition>; // OneCall current.weather: Array
+  alerts: Array<OpenWeatherAlert>; // OneCall
+  units: "metric" | "imperial" | "standard";
+}
+
+export interface OpenWeatherCondition {
+  main: string;
+  description: string;
+}
+
+export interface OpenWeatherAlert {
+  sender_name: string;
+  event: string;
+  start: number;
+  end: number;
+  description: string;
 }

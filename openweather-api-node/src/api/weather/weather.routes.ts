@@ -1,5 +1,5 @@
 import express, { Request } from "express";
-import { getOpenWeather, validateCoords } from "./weather.service";
+import { getOpenWeather, parseWeatherConditions, validateCoords } from "./weather.service";
 
 const router = express.Router();
 
@@ -8,14 +8,16 @@ interface WeatherRequestQuery {
   lon: string;
 }
 
+/**
+ * GET /weather?lat={latitude}&lon={longitude}
+ */
 router.get("/", async (req: Request<{}, {}, {}, WeatherRequestQuery>, res, next) => {
   try {
     const { lat, lon } = req.query;
     const { latNum, lonNum } = await validateCoords(lat, lon);
     const openWeatherData: any = await getOpenWeather(latNum, lonNum);
-    // TODO return weather
-    res.status(200).json(openWeatherData);
-
+    const response = parseWeatherConditions(openWeatherData);
+    res.status(200).json(response);
   } catch (err: any) {
     next(err);
   }
