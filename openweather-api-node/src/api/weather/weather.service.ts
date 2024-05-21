@@ -102,7 +102,12 @@ export function parseWeatherConditions(openWeatherData: any): WeatherResponse {
     const feeling =
       temperature > 27 ? "hot" : temperature < 15 ? "cold" : "moderate";
 
-    const alerts = openWeatherData.alerts || [];
+    const alerts = openWeatherData.alerts ? openWeatherData.alerts.map((alert: any) => {
+      return {
+        event: alert.event,
+        description: alert.description,
+      };
+    }) : [];
     const units = "metric";
 
     return { feeling, conditions, alerts, temperature, units };

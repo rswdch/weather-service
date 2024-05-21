@@ -22,7 +22,7 @@ This service is based on the OpenWeather API which can be found here: https://op
 ## Usage
 
 1. Set up the required environment variables:
-- OpenWeather API Key OPENWEATHER_API_KEY
+- OpenWeather API Key `OPENWEATHER_API_KEY`
 2. Build build the service `npm run build`
 3. Start the server: `npm start`
 4. Access the API at `http://localhost:3000`
@@ -50,8 +50,12 @@ This service is based on the OpenWeather API which can be found here: https://op
 - **Response Body:**
   ```json
   {
-    "weather_conditions": ["rain"],
-    "temperature": "moderate",
+    "feeling": "cold",
+    "weather_conditions": [{
+      "shortDesc": "Clouds",
+      "longDesc": "overcast clouds",
+    }],
+    "temperature": "6.37",
     "alerts": [
       {
         "event": "Heavy Rain",

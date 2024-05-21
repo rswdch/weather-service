@@ -32,8 +32,12 @@ The Weather Service API is designed to provide weather information based on lati
 - **Response Body:**
   ```json
   {
-    "weather_condition": ["rain"],
-    "temperature": "moderate",
+    "feeling": "cold",
+    "weather_conditions": [{
+      "shortDesc": "Clouds",
+      "longDesc": "overcast clouds",
+    }],
+    "temperature": "6.37",
     "alerts": [
       {
         "event": "Heavy Rain",
