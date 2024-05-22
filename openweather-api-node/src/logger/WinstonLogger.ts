@@ -25,7 +25,8 @@ function configureTransports(): Array<TransportStream> {
         level: "warn",
         filename: "warn.log",
         format: format.combine(format.timestamp(), format.json()),
-        maxsize: 10000,
+        maxsize: 1000000,
+        maxFiles: 1,
       }),
       new transports.File({
         level: "info",
