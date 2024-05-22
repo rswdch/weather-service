@@ -14,17 +14,30 @@ This service is based on the OpenWeather OneCall API which can be found here: ht
 
 ## Installation
 
+### Node.js 
 1. Clone the repository: `git clone https://github.com/rswdch/weather-service.git`
 2. Install dependencies: `npm install`
 
+### Docker
+1. Clone the repository.
+2. Build the image from the directory of Dockerfile. `docker build -t openweather-api .`
+
+
 ## Usage
+
+### Node.js
 
 1. Set up the required environment variables i.e. in `.env`, system-wide, or on the deployment platform:
   - `PORT`: Port on which the server runs.
   - `OPENWEATHER_API_KEY`: OpenWeather API key. Please generate your own key since the OneCall API is not free.
 2. Build build the service `npm run build`
 3. Start the server: `npm start`
-4. Access the API at `http://localhost:3000`
+4. Access the API at `http://localhost:3000/weather?lat=0&lon=0`
+
+### Docker
+1. Start the container, providing your own `OPENWEATHER_API_KEY` as an environment variable. Example: `docker run -e OPENWEATHER_API_KEY=<YOUR_KEY> -i -t -d -p 3000:3000 openweather-api:latest`
+2. Access the API at `http://localhost:3000/weather?lat=0&lon=0` (port mapping configured in previous step).
+
 
 ## Dependencies
 
