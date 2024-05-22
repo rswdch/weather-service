@@ -5,7 +5,7 @@ import {
   parseWeatherConditions,
 } from "./weather.service";
 
-describe("Weather service tests", () => {
+describe("Weather service unit tests", () => {
   beforeAll(() => {
     dotenv.config();
   });
