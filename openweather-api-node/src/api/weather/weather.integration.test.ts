@@ -55,7 +55,22 @@ describe("Weather Service integration tests", () => {
     });
   });
 
-  describe("Error tests", () => {
+  describe("Error tests for additional edge cases", () => {
+    it("should return an error if lat is an empty string", async () => {
+      const response = await request.get("/weather?lat=&lon=40");
+      expect(response.status).toBe(400);
+    });
+
+    it("should return an error if lon is an empty string", async () => {
+      const response = await request.get("/weather?lat40=&lon=");
+      expect(response.status).toBe(400);
+    });
+
+    it("should not depend on order of query params", async () => {
+      const response = await request.get("/weather?lon=40&lat=40");
+      expect(response.status).toBe(200);
+    });
+
     /**
      * DANGER: This test may cause other tests to fail since it modifies the environment variable and runs async.
      * It is best to run this test last.
