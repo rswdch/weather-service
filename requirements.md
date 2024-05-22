@@ -52,5 +52,5 @@ Creating geographic buckets and caching over latitude and longitude could be pra
 ## Development and Testing
 
 - **Unit Tests:** Unit tests should be performed to ensure that the API delivers the key functional requirements and that there are no bugs in any edge cases. 
-- **Integration Tests:** Since the API is fairly simple with a single endpoint, manual (human) integration testing can be performed by instantiating the API and sending requests to the `/weather?lat={LAT}&lon={LON}` endpoint. In practice, a testing library that can send HTTP requests such as Chai with Chai HTTP should be used to write automated integration tests.
+- **Integration Tests:** Since the API is fairly simple with a single endpoint, manual (human) integration testing can be performed by instantiating the API and sending requests to the `/weather?lat={LAT}&lon={LON}` endpoint. Automated integration tests can also be written with a library that can send HTTP requests such as Chai with Chai HTTP or Supertest with Jest.
 - **Load Testing:** No load testing will be performed as the number of active users will be <10.

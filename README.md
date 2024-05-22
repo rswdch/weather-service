@@ -145,9 +145,16 @@ In order to protect abuse of the API, the Google Cloud Load Balancer is used in 
 
 If a demonstration is desired, please contact me for a link.
 
+### Testing
+
+- **Unit Tests:** Unit tests for functionality have been performed using Jest and can be found at [weather.unit.test.ts](./openweather-api-node/src/api/weather/weather.unit.test.ts). 
+- **Integration Tests:** Integration tests are written with Supertest. Status codes 200, 400, and 404 are checked along with functional testing of the API for the presence of the fields expected. 
+- **Load Testing:** No load testing will be performed as the number of active users will be <10.
+
+
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This is a personal project for portfolio and demonstration purposes only. Please do not reproduce the project.
 
 ## Contact
 
