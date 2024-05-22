@@ -39,7 +39,7 @@ This service is based on the OpenWeather OneCall API which can be found here: ht
   - @google-cloud/logging-winston: Official Google Cloud transport plugin for Winston for logging when deployed on Google Cloud.
   - dotenv: Used to hide secrets in `.env` file so they are not exposed in application code.
 - **Dev Dependencies:***
-  - typescript, ts-*, @typtes/* required for TypeScript support and typing.
+  - typescript, ts-\*, @typtes/\* required for TypeScript support and typing.
   - jest: simple unit testing library with similar syntax to Mocha and Jasmine.
   - supertest: integration testing library that can be paired with a unit testing library for http request testing.
   - nodemon: dev server that watches and reloads file changes.
