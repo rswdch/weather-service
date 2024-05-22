@@ -2,9 +2,9 @@
 
 ## Description
 
-Weather Service is an http server that uses the Open Weather API and exposes an endpoint that takes in lat/long coordinates. This endpoint should return what the weather condition is outside in that area (snow, rain, etc), whether it’s hot, cold, or moderate outside (discretion is used on what temperature equates to each type), and whether there are any weather alerts going on in that area, with what is going on if there is currently an active alert. 
+The purpose of this Weather Service is to demonstrate a Node.js/Express http server that uses the Open Weather API and exposes an endpoint that takes in lat/long coordinates. The endpoint returns what the weather condition is outside in that area (snow, rain, etc), whether it’s hot, cold, or moderate outside (discretion is used on what temperature equates to each type), and whether there are any weather alerts going on in that area, with what is going on if there is currently an active alert. 
 
-This service is based on the OpenWeather API which can be found here: https://openweathermap.org/api. The one-call api returns all of the data while the other apis are piece-mealed sections. You may also find the https://openweathermap.org/faq useful.
+This service is based on the OpenWeather OneCall API which can be found here: https://openweathermap.org/api.
 
 ## Features
 
@@ -21,7 +21,7 @@ This service is based on the OpenWeather API which can be found here: https://op
 
 1. Set up the required environment variables i.e. in `.env`, system-wide, or on the deployment platform:
   - `PORT`: Port on which the server runs.
-  - `OPENWEATHER_API_KEY`: OpenWeather API key.
+  - `OPENWEATHER_API_KEY`: OpenWeather API key. Please generate your own key since the OneCall API is not free.
 2. Build build the service `npm run build`
 3. Start the server: `npm start`
 4. Access the API at `http://localhost:3000`
@@ -38,6 +38,11 @@ This service is based on the OpenWeather API which can be found here: https://op
   - winston-transport: Mainly for Winston types for TypeScript, though can be used to configure custom transports.
   - @google-cloud/logging-winston: Official Google Cloud transport plugin for Winston for logging when deployed on Google Cloud.
   - dotenv: Used to hide secrets in `.env` file so they are not exposed in application code.
+- **Dev Dependencies:***
+  - typescript, ts-*, @typtes/* required for TypeScript support and typing.
+  - jest: simple unit testing library with similar syntax to Mocha and Jasmine.
+  - supertest: integration testing library that can be paired with a unit testing library for http request testing.
+  - nodemon: dev server that watches and reloads file changes.
 
 ## API Documentation
 
