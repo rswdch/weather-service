@@ -3,8 +3,7 @@ import { logger } from "./logger/WinstonLogger";
 import weatherRouter from "./api/weather/weather.routes";
 import * as expressWinston from "express-winston";
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+export const app = express();
 
 app.use(
   expressWinston.logger({
@@ -67,6 +66,3 @@ export interface MiddlewareError extends Error {
   status?: number;
 }
 
-app.listen(PORT, () => {
-  logger.info(`Listening on port ${PORT}`);
-});
