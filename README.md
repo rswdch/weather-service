@@ -153,7 +153,7 @@ If a demonstration is desired, please contact me for a link.
 ### Testing
 
 - **Unit Tests:** Unit tests for functionality have been performed using Jest and can be found at [weather.unit.test.ts](./openweather-api-node/src/api/weather/weather.unit.test.ts). 
-- **Integration Tests:** Integration tests are written with Supertest. Status codes 200, 400, and 404 are checked along with functional testing of the API for the presence of the fields expected. 
+- **Integration Tests:** Integration tests are written with Supertest. Status codes 200, 400, and 404 are checked along with functional testing of the API for the presence of the fields expected. Integration tests can be found in [weather.integration.test.ts](./openweather-api-node/src/api/weather/weather.integration.test.ts).
 - **Load Testing:** No load testing will be performed as the number of active users will be <10.
 
 
