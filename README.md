@@ -157,9 +157,9 @@ Non-functional requirements are primarily satisfied through architecture, system
 
 ![Google Cloud Deployment Diagram](./gcp_diagram.png)
 
-The Express.js web server is containerized with Docker, then deployed on Google Cloud Run is a managered stateless container hosting platform that uses Kubernetes and Knative under the hood. Containerizing and hosting on Google Cloud Run allows the service to scale horizontally. 
+The Express.js web server is containerized with Docker, then deployed on Google Cloud Run is a managered stateless container hosting platform that uses Kubernetes and Knative under the hood. Containerizing and hosting on Google Cloud Run allows the service to scale horizontally by spinning up new instances of the application. 
 
-In order to protect abuse of the API, the Google Cloud Load Balancer is used in conjunction with Google Cloud Armor for rate limiting. In order to remain under the free tier of the OpenWeather OneCall API, requests are limited to 1000 per day.
+Although Cloud Run comes with its own load balancer for distributing traffic among instances, the Google Cloud Load Balancer is used in conjunction with Google Cloud Armor for rate limiting in order to prevent abuse of the API. This is important since the OpenWeather OneCall API limits free requests are limited to 1000 per day and any additionally requests incur costs.
 
 If a demonstration is desired, please contact me for a link.
 
