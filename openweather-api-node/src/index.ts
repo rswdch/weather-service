@@ -13,12 +13,6 @@ app.use(
   })
 );
 
-app.get("/", (_req: Request, res: Response) => {
-  logger.info("this is an info log");
-  logger.debug("this is a debug log from /");
-  res.send("Hello world").status(200).end();
-});
-
 app.use("/weather", weatherRouter);
 
 app.get("/error", () => {
