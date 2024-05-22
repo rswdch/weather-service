@@ -1,7 +1,5 @@
 # Weather Service Project
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-
 ## Description
 
 Weather Service is an http server that uses the Open Weather API and exposes an endpoint that takes in lat/long coordinates. This endpoint should return what the weather condition is outside in that area (snow, rain, etc), whether it’s hot, cold, or moderate outside (discretion is used on what temperature equates to each type), and whether there are any weather alerts going on in that area, with what is going on if there is currently an active alert. 
@@ -130,11 +128,22 @@ All errors will return an http status code. Errors are handled either through th
 
 ## Requirements
 
-See [requirements.md](./requirements.md) for requirement definitions.
+Implementation details on how requirements are satisfied are quickly summarized in this section. See [requirements.md](./requirements.md) for requirement definitions and a deeper discussion of the design choices made to satisfy the requirements.
 
-## Deployment Details
+### Functional Requirements
 
-- **Deployment Platform:** Google Cloud Run
+Functional requirements are satisfied with a Node.js server running Express with logic implementing the API as specified at the endpoint `/weather`. The endpoint accepts the query params `lat` and `lon`. Once an API key is specified as the value of the environment variable `OPENWEATHER_API_KEY` and the application is served, the requirements are met.
+
+### Non-Functional Requirements
+Non-functional requirements are primarily satisfied through architecture, system design, and deployment details. Additional discussion can be found in [requirements.md](./requirements.md). While the application can be run locally, it is also hosted on Google Cloud Platform to demonstrate horizontal scaling. 
+
+![Google Cloud Deployment Diagram](./gcp_diagram.png)
+
+The Express.js web server is containerized with Docker, then deployed on Google Cloud Run is a managered stateless container hosting platform that uses Kubernetes and Knative under the hood. Containerizing and hosting on Google Cloud Run allows the service to scale horizontally. 
+
+In order to protect abuse of the API, the Google Cloud Load Balancer is used in conjunction with Google Cloud Armor for rate limiting. In order to remain under the free tier of the OpenWeather OneCall API, requests are limited to 1000 per day.
+
+If a demonstration is desired, please contact me for a link.
 
 ## License
 
